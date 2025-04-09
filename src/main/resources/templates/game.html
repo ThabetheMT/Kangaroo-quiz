@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kangaroo Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Comic Neue', cursive, sans-serif;
+            background-color: #FFF9C4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 0;
+            padding-top: 60px;
+            /* Top spacing added */
+        }
+
+        #container {
+            display: flex;
+            justify-content: space-between;
+            width: 90%;
+            margin-top: 20px;
+        }
+
+        #story-container,
+        #quiz-container {
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 45%;
+        }
+
+        #story-container {
+            background-color: #FFCC80;
+            border: 2px solid #FF9800;
+        }
+
+        #quiz-container {
+            background-color: #FFCCFF;
+            border: 2px solid #FF7043;
+        }
+
+        h2 {
+            font-family: 'Pacifico', cursive;
+            color: #FF7043;
+            text-align: center;
+        }
+
+        select,
+        textarea,
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #FF7043;
+            border-radius: 8px;
+            background-color: #FFE0B2;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #FF7043;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #FF5722;
+            transform: scale(1.05);
+        }
+
+        #result {
+            font-weight: bold;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .stars {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .star {
+            font-size: 24px;
+            color: #ccc;
+            transition: color 0.3s;
+        }
+
+        .star.active {
+            color: gold;
+        }
+
+        #read-aloud-btn {
+            background-color: #FFEB3B;
+            color: black;
+            margin-top: 10px;
+        }
+
+        #read-aloud-btn:hover {
+            background-color: #FFC107;
+        }
+
+        .word.highlight {
+            background-color: #FFEB3B;
+        }
+
+        .correct {
+            color: green;
+        }
+
+        .incorrect {
+            color: red;
+        }
+
+        #speech-controls button {
+            background-color: #4CAF50;
+            /* Green */
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #speech-controls button:hover {
+            background-color: #3e8e41;
+        }
+
+        #story-container img {
+            width: 400px;
+            height: 400px;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Story Dropdown -->
+<div style="margin-bottom: 10px;">
+    <label for="story-select">Choose a story: </label>
+    <select id="story-select">
+        <option value="kangaroo">How the Kangaroos Got Their Tails</option>
+        <!-- You can add more options here -->
+    </select>
+</div>
+
+<div id="container">
+    <!-- Story Section -->
+    <div id="story-container">
+        <h3><strong id="story-title">How the Kangaroos Got Their Tails</strong></h3>
+        <p id="story-text">
+            A long, long time ago, two kangaroos lived in the country now known as Australia. The large, brown kangaroo was from the plains and the smaller, grey kangaroo was from the hills. One day, the grey kangaroo really wanted to eat some wild bush honey, so he followed a swarm of bees to their hive in the hole of a rock. The grey kangaroo reached inside and pulled out a handful of gooey honey. It was delicious, and now the big, brown kangaroo also wanted some for himself. The grey kangaroo told him to reach his arm right into the back of the hole to get the tastiest honey. The brown kangaroo did this, but all he pulled out was a handful of spiders. He had been tricked!
+        </p>
+        <button id="read-aloud-btn">🎧 Read Aloud</button>
+        <div id="speech-controls" style="margin-top: 10px;">
+            <button id="pause-btn">Pause</button>
+            <button id="resume-btn">Resume</button>
+            <button id="start-afresh-btn">Start Afresh</button>
+        </div>
+        <img src="/images/img.jpg" alt="Kangaroo" width="300" style="margin-top: 10px;">
+    </div>
+
+    <!-- Quiz Section -->
+    <div id="quiz-container">
+        <h2>🦘 Kangaroo Quiz 🦘</h2>
+
+        <div class="question-container">
+            <p>1. How do you think the grey kangaroo was feeling when he followed the bees? (Was he sneaky like a fox or just REALLY hungry?)</p>
+            <textarea id="answer1"></textarea>
+            <p id="result1"></p>
+        </div>
+
+        <div class="question-container">
+            <p>2. Which kangaroo was the biggest goofball? (Type: Brown or Grey)</p>
+            <input type="text" id="answer2" />
+            <p id="result2"></p>
+        </div>
+
+        <div class="question-container">
+            <p>3. Find and copy the word that means the same as when your hands are covered in jam! </p>
+            <input type="text" id="answer3" />
+            <p id="result3"></p>
+        </div>
+
+        <div class="question-container">
+            <p>4. Let's put these silly events in order:</p>
+            <p>a) The brown kangaroo got a face full of spiders! 🕷️</p>
+            <select id="order1">
+                <option value="0">Choose...</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+            <p id="result4a"></p>
+            <p>b) The grey kangaroo chased after some buzzy bees. 🐝</p>
+            <select id="order2">
+                <option value="0">Choose...</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+            <p id="result4b"></p>
+            <p>c) The grey kangaroo enjoyed a sweet treat. 🍯</p>
+            <select id="order3">
+                <option value="0">Choose...</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+            <p id="result4c"></p>
+        </div>
+
+        <!-- Buttons -->
+        <button id="submit-btn">Show me my score!</button>
+        <button id="reset-btn">Try again!</button>
+
+        <!-- Score -->
+        <div class="stars" id="star-container">
+            <span class="star" id="star1">⭐</span>
+            <span class="star" id="star2">⭐</span>
+            <span class="star" id="star3">⭐</span>
+            <span class="star" id="star4">⭐</span>
+        </div>
+
+        <!-- Result -->
+        <div id="result"></div>
+    </div>
+</div>
+
+<audio id="success-sound" src="https://cdn.pixabay.com/audio/2022/03/10/audio_b0d2b2ec2d.mp3"></audio>
+<audio id="error-sound" src="https://cdn.pixabay.com/audio/2022/03/10/audio_2c8a84f49b.mp3"></audio>
+
+<script>
+    const starEls = [1, 2, 3, 4].map(n => document.getElementById(`star${n}`));
+    const storyText = document.getElementById('story-text');
+    const readAloudBtn = document.getElementById('read-aloud-btn');
+    const successSound = document.getElementById('success-sound');
+    const errorSound = document.getElementById('error-sound');
+    let utterance = null; // Declare utterance outside the event listener
+    let isSpeaking = false;
+
+    // Read aloud functionality
+    document.getElementById('read-aloud-btn').addEventListener('click', () => {
+        speechSynthesis.cancel();
+        utterance = new SpeechSynthesisUtterance(storyText.innerText);
+        utterance.rate = 1;
+        utterance.pitch = 1;
+
+        utterance.onstart = () => {
+            isSpeaking = true;
+        }
+
+        utterance.onend = () => {
+            isSpeaking = false;
+        }
+        speechSynthesis.speak(utterance);
+    });
+
+    // Pause functionality
+    document.getElementById('pause-btn').addEventListener('click', () => {
+        if (isSpeaking && speechSynthesis.speaking) {
+            speechSynthesis.pause();
+            isSpeaking = false;
+        }
+    });
+
+    // Resume functionality
+    document.getElementById('resume-btn').addEventListener('click', () => {
+        if (!isSpeaking && speechSynthesis.paused) {
+            speechSynthesis.resume();
+            isSpeaking = true;
+        }
+    });
+
+    // Start Afresh functionality
+    document.getElementById('start-afresh-btn').addEventListener('click', () => {
+        speechSynthesis.cancel();
+        utterance = new SpeechSynthesisUtterance(storyText.innerText);
+        utterance.rate = 1;
+        utterance.pitch = 1;
+
+        utterance.onstart = () => {
+            isSpeaking = true;
+        }
+
+        utterance.onend = () => {
+            isSpeaking = false;
+        }
+        speechSynthesis.speak(utterance);
+    });
+
+    // Submit functionality
+    document.getElementById("submit-btn").addEventListener("click", function() {
+        let score = 0;
+
+        const answer1 = document.getElementById("answer1").value.trim();
+        const answer2 = document.getElementById("answer2").value.trim().toLowerCase();
+        const answer3 = document.getElementById("answer3").value.trim().toLowerCase();
+        const order1 = document.getElementById("order1").value;
+        const order2 = document.getElementById("order2").value;
+        const order3 = document.getElementById("order3").value;
+
+        let isCorrect1 = answer1.includes("hopeful") || answer1.includes("excited") || answer1.includes("sneaky");
+        let isCorrect2 = answer2 === "brown";
+        let isCorrect3 = answer3 === "gooey";
+        let isCorrect4 = order1 === "3" && order2 === "1" && order3 === "2";
+
+        if (isCorrect1) score++;
+        if (isCorrect2) score++;
+        if (isCorrect3) score++;
+        if (isCorrect4) score++;
+
+        // Display correct/incorrect messages (with funny feedback)
+        document.getElementById("result1").innerText = isCorrect1 ? "✅ You betcha! That kangaroo was up to something!" : "❌ Nope, not quite! Think about what he was planning...";
+        document.getElementById("result1").className = isCorrect1 ? "correct" : "incorrect";
+
+        document.getElementById("result2").innerText = isCorrect2 ? "✅ Haha! You got it! Brownie was a goof!" : "❌ Not this time! The brown kangaroo was the silly one.";
+        document.getElementById("result2").className = isCorrect2 ? "correct" : "incorrect";
+
+        document.getElementById("result3").innerText = isCorrect3 ? "✅ Yummy! Gooey is the word!" : "❌ Almost! Think of sticky and sweet...";
+        document.getElementById("result3").className = isCorrect3 ? "correct" : "incorrect";
+
+        document.getElementById("result4a").innerText = (order1 === "3") ? "✅" : "❌";
+        document.getElementById("result4a").className = (order1 === "3") ? "correct" : "incorrect";
+        document.getElementById("result4b").innerText = (order2 === "1") ? "✅" : "❌";
+        document.getElementById("result4b").className = (order2 === "1") ? "correct" : "incorrect";
+        document.getElementById("result4c").innerText = (order3 === "2") ? "✅" : "❌";
+        document.getElementById("result4c").className = (order3 === "2") ? "correct" : "incorrect";
+
+        // Play sound
+        if (score === 4) {
+            successSound.play();
+        } else {
+            errorSound.play();
+        }
+
+        // Star display
+        starEls.forEach((star, idx) => {
+            star.classList.toggle("active", idx < score);
+        });
+
+        // Result text
+        document.getElementById("result").innerText =
+            score === 4 ? "🎉 You're a Kangaroo Quiz Whiz! Perfect score!" : `You scored ${score}/4. Keep hopping and try again!`;
+
+        // Save to local storage
+        localStorage.setItem("kangaroo-quiz-score", score);
+    });
+
+    // Reset functionality
+    document.getElementById("reset-btn").addEventListener("click", () => {
+        ["answer1", "answer2", "answer3"].forEach(id => document.getElementById(id).value = "");
+        ["order1", "order2", "order3"].forEach(id => document.getElementById(id).value = "0");
+        starEls.forEach(star => star.classList.remove("active"));
+        document.getElementById("result").innerText = "";
+        document.getElementById("result1").innerText = "";
+        document.getElementById("result2").innerText = "";
+        document.getElementById("result3").innerText = "";
+        document.getElementById("result4a").innerText = "";
+        document.getElementById("result4b").innerText = "";
+        document.getElementById("result4c").innerText = "";
+        localStorage.removeItem("kangaroo-quiz-score");
+    });
+
+    // Restore previous score
+    const savedScore = parseInt(localStorage.getItem("kangaroo-quiz-score"));
+    if (!isNaN(savedScore)) {
+        starEls.forEach((star, idx) => {
+            star.classList.toggle("active", idx < savedScore);
+        });
+    }
+</script>
+</body>
+
+</html>
