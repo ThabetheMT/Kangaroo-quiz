@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kangaroo Story Flashcards</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #FFC107;
+            --text-color: #333;
+            --bg-color: #f9f9f9;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #87CEEB;
+            /* Light Sky Blue */
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            /* Add a semi-transparent background */
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            /* Enhance the shadow */
+        }
+
+        /* Story Section Styles */
+        #story-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 2px solid #4CAF50;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            /* Semi-transparent white */
+            position: relative;
+            /* For positioning highlight */
+        }
+
+        #story-section h2 {
+            color: #4CAF50;
+        }
+
+        /* Speech Controls */
+        #speech-controls {
+            margin-top: 10px;
+        }
+
+        #speech-controls button {
+            padding: 8px 16px;
+            font-size: 0.9em;
+            cursor: pointer;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            border: none;
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+
+        #speech-controls button:hover {
+            background-color: #DAA520;
+        }
+
+        /* Word Highlighting */
+        .word.highlight {
+            background-color: yellow;
+            transition: background-color 0.5s;
+        }
+
+        /* Flashcard Styles */
+        #flashcard-section {
+            display: none;
+            /* Initially hidden */
+        }
+
+        .flashcard {
+            width: 400px;
+            height: 250px;
+            margin: 20px auto;
+            perspective: 1000px;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .front,
+        .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px var(--shadow-color);
+            padding: 20px;
+            box-sizing: border-box;
+            backface-visibility: hidden;
+            font-size: 1.3em;
+            /* Increased font size */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            /* Added text shadow */
+        }
+
+        .front {
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+        }
+
+        .back {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            transform: rotateY(180deg);
+            cursor: pointer;
+        }
+
+        .navigation {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .navigation button {
+            padding: 12px 24px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px var(--shadow-color);
+            /* Added shadow to buttons */
+        }
+
+        .navigation button:hover {
+            background-color: #388E3C;
+            /* Darker Green */
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>How the Kangaroos Got Their Tails - Flashcards</h1>
+
+    <!-- Story Section -->
+    <div id="story-section">
+        <h2>How the Kangaroos Got Their Tails</h2>
+        <p id="story-text">A long, long time ago, two kangaroos lived in the country now known as Australia. The large, brown kangaroo was from the plains and the smaller, grey kangaroo was from the hills. One day, the grey kangaroo really wanted to eat some wild bush honey, so he followed a swarm of bees to their hive in the hole of a rock. The grey kangaroo reached inside and pulled out a handful of gooey honey. It was delicious, and now the big, brown kangaroo also wanted some for himself. The grey kangaroo told him to reach his arm right into the back of the hole to get the tastiest honey. The brown kangaroo did this, but all he pulled out was a handful of spiders. He had been tricked!</p>
+
+        <!-- Speech Controls -->
+        <div id="speech-controls">
+            <button id="read-aloud-btn">Read Aloud</button>
+            <button id="pause-btn">Pause</button>
+            <button id="resume-btn">Resume</button>
+        </div>
+
+        <p>Read the story carefully before moving on to the flashcards!</p>
+        <button id="start-flashcards">Start Flashcards</button>
+    </div>
+
+    <!-- Flashcard Section (initially hidden) -->
+    <div id="flashcard-section" style="display: none;">
+        <div class="flashcard" id="flashcard">
+            <div class="flashcard-inner">
+                <div class="front">Click to see the answer!</div>
+                <div class="back"></div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button id="prev">Previous</button>
+            <button id="next">Next</button>
+            <button id="back-to-story">Back to Story</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const flashcard = document.getElementById('flashcard');
+    const front = document.querySelector('.front');
+    const back = document.querySelector('.back');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const backToStoryBtn = document.getElementById('back-to-story'); // New button
+    const flashcardInner = document.querySelector('.flashcard-inner');
+    const storyText = document.getElementById('story-text'); // For read aloud
+    const readAloudBtn = document.getElementById('read-aloud-btn');
+    const pauseBtn = document.getElementById('pause-btn');
+    const resumeBtn = document.getElementById('resume-btn');
+    let utterance = null;
+    let isSpeaking = false;
+    let currentWordIndex = 0; // Track the current word index
+
+    const flashcardData = [{
+        question: "What animals are in the story?",
+        answer: "Kangaroos and Bees"
+    },
+        {
+            question: "Where did the Brown Kangaroo live?",
+            answer: "On the Plains"
+        },
+        {
+            question: "What did the grey kangaroo want?",
+            answer: "Wild Bush Honey"
+        },
+        {
+            question: "What did the Brown Kangaroo pull out of the hive?",
+            answer: "Spiders"
+        },
+        {
+            question: "Which kangaroo tricked the other?",
+            answer: "The Grey Kangaroo"
+        },
+        {
+            question: "What was the grey kangaroos personality?",
+            answer: "Sneaky"
+        },
+        {
+            question: "What did the grey kangaroo pull from the hive?",
+            answer: "Honey"
+        },
+        {
+            question: "Was the Brown Kangaroo happy when he pulled out spiders?",
+            answer: "No, He was tricked."
+        }
+    ];
+
+    let currentCardIndex = 0;
+
+    function updateCard() {
+        front.textContent = flashcardData[currentCardIndex].question;
+        back.textContent = flashcardData[currentCardIndex].answer;
+    }
+
+    function flipCard() {
+        flashcard.classList.toggle('flipped');
+    }
+
+    updateCard();
+
+    // Read Aloud functionality (modified)
+    readAloudBtn.addEventListener('click', () => {
+        speechSynthesis.cancel(); // Stop any ongoing speech
+        utterance = new SpeechSynthesisUtterance(storyText.textContent);
+        utterance.rate = 1.0; // Adjust the rate (1.0 is normal, higher is faster)
+        speechSynthesis.speak(utterance);
+    });
+
+    // Pause functionality
+    pauseBtn.addEventListener('click', () => {
+        if (speechSynthesis.speaking) {
+            speechSynthesis.pause();
+        }
+    });
+
+    // Resume functionality
+    resumeBtn.addEventListener('click', () => {
+        if (speechSynthesis.paused) {
+            speechSynthesis.resume();
+        }
+    });
+
+    document.getElementById('start-flashcards').addEventListener('click', function() {
+        document.getElementById('story-section').style.display = 'none';
+        document.getElementById('flashcard-section').style.display = 'block';
+    });
+
+    flashcard.addEventListener('click', flipCard);
+
+    nextBtn.addEventListener('click', () => {
+        currentCardIndex = (currentCardIndex + 1) % flashcardData.length;
+        updateCard();
+        if (flashcard.classList.contains('flipped')) {
+            flipCard();
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        currentCardIndex = (currentCardIndex - 1 + flashcardData.length) % flashcardData.length;
+        updateCard();
+        if (flashcard.classList.contains('flipped')) {
+            flipCard();
+        }
+    });
+
+    // Back to Story button functionality
+    backToStoryBtn.addEventListener('click', () => {
+        document.getElementById('flashcard-section').style.display = 'none';
+        document.getElementById('story-section').style.display = 'block';
+        speechSynthesis.cancel(); // Stop any ongoing speech
+    });
+
+</script>
+
+</body>
+
+</html>
